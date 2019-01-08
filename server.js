@@ -29,12 +29,11 @@ app.use(helmet())
 app.get('/', (req, res) => {
   res.status(200).send('Hello World')
 })
-app.listen(8000)
 
 let server = https.createServer(credentials, app)
 socket.init(server)
 
-
-server.listen(8080, function () {
-  console.log('listening on port 8080')
+let port = process.env.PORT || 3000
+server.listen(port, function () {
+  console.log('listening on port ' + port)
 })

@@ -28,7 +28,6 @@ app.use(helmet())
 app.get('/', (req, res) => {
   res.status(200).send('Hello World')
 })
-app.listen(3003)
 
 let server = https.createServer(credentials, app)
 socket.init(server)

@@ -12,13 +12,13 @@ const socket = require('./socket')
 //   key: fs.readFileSync(path.join(__dirname, 'key/private-key.pem')),
 // }
 
-let PORT = process.env.PORT || 3000
-let server = express()
+// let PORT = process.env.PORT || 3000
+// let server = express()
 
 
-server.get('/', (req, res) => res.end('Hello my friend!'))
+// server.get('/', (req, res) => res.end('Hello my friend!'))
   
-server.listen(3000, u => console.log(`Listening on port ${ PORT }`))
+// server.listen(3000, u => console.log(`Listening on port ${ PORT }`))
 
 // socket.init(server)
 // app.use(helmet())
@@ -50,14 +50,14 @@ server.listen(3000, u => console.log(`Listening on port ${ PORT }`))
 
 
 
-// let express = require('express')
-// let app = express()
-// app.set('port', process.env.PORT || 3000)
+let express = require('express')
+let app = express()
+app.set('port', process.env.PORT || 3000)
 
-// app.get('/', function (req, res) {
-//   res.status(200).end('Hello World')
-// })
+app.get('/', function (req, res) {
+  res.status(200).end('Hello World')
+})
 
-// app.listen(app.get('port'), function () {
-//   console.log('listening on port', app.get('port'))
-// })
+app.listen(app.get('port'), function () {
+  console.log('listening on port', app.get('port'))
+})

@@ -1,5 +1,4 @@
-const tls  = require('tls'),
-      https = require('https'),
+const https = require('https'),
       express = require('express'),
       helmet = require('helmet')
 

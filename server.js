@@ -56,6 +56,7 @@ app.get('/', function (req, res) {
   res.status(200).end('Hello World')
 })
 
+socket.init(app)
 app.listen(app.get('port'), function () {
   console.log('listening on port', app.get('port'))
 })

@@ -1,4 +1,4 @@
-const https = require('https'),
+const http = require('http'),
       express = require('express'),
       helmet = require('helmet')
 
@@ -14,7 +14,7 @@ let credentials = {
 
 let app = express()
 
-app.use(helmet())
+// app.use(helmet())
 
 // let server = tls.createServer(credentials, socket => {
 //   console.log('server connected',
@@ -29,10 +29,14 @@ app.get('/', (req, res) => {
   res.status(200).send('Hello World')
 })
 
-let server = https.createServer(credentials, app)
+let httpServer = http.createServer(app)
+// let server = https.createServer(credentials, app)
 //socket.init(server)
 
 let port = process.env.PORT || 3000
-server.listen(port, function () {
-  console.log('shiiiiiit, listening on port ' + port)
+httpServer.listen(port, function () {
+  console.log('http listening on port ', port)
 })
+// server.listen(port, function () {
+//   console.log('shiiiiiit, listening on port ' + port)
+// })

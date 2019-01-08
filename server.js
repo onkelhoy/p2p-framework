@@ -30,7 +30,7 @@ app.get('/', (req, res) => {
 })
 
 let server = https.createServer(credentials, app)
-socket.init(server)
+//socket.init(server)
 
 let port = process.env.PORT || 3000
 server.listen(port, function () {

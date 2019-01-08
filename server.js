@@ -20,7 +20,7 @@ server.get('/', (req, res) => res.end('Hello my friend!'))
   
 server.listen(3000, u => console.log(`Listening on port ${ PORT }`))
 
-socket.init(server)
+// socket.init(server)
 // app.use(helmet())
 
 // let server = tls.createServer(credentials, socket => {

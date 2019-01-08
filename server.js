@@ -14,8 +14,11 @@ const socket = require('./socket')
 
 let PORT = process.env.PORT || 3000
 let server = express()
-  .use((req, res) => res.end('Hello my friend!'))
-  .listen(3000, u => console.log(`Listening on port ${ PORT }`))
+
+
+server.get('/', (req, res) => res.end('Hello my friend!'))
+  
+server.listen(3000, u => console.log(`Listening on port ${ PORT }`))
 
 socket.init(server)
 // app.use(helmet())

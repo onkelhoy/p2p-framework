@@ -1,11 +1,11 @@
-const { createServerFrom } = require('wss')
-
+// const { createServerFrom } = require('wss')
+const WebSocket = require('ws')
 
 const rooms = [] 
 
 function init (server) {
-  let wss = createServerFrom(server)
-
+  // let wss = createServerFrom(server)
+  let wss = WebSocket.Server({ server })
   wss.on('connection', ws => {
     ws.id = new Date().getTime() + '.' + Math.random()
     send(ws, { type: 'connected', id: ws.id })

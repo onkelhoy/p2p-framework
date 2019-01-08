@@ -5,7 +5,7 @@ const rooms = []
 
 function init (server) {
   // let wss = createServerFrom(server)
-  let wss = WebSocket.Server({ server })
+  let wss = new WebSocket.Server({ server })
   wss.on('connection', ws => {
     ws.id = new Date().getTime() + '.' + Math.random()
     send(ws, { type: 'connected', id: ws.id })

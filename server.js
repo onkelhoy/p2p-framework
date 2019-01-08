@@ -35,6 +35,6 @@ let server = https.createServer(credentials, app)
 socket.init(server)
 
 
-server.listen(80, function () {
+server.listen(8080, function () {
   console.log('listening on port 8080')
 })

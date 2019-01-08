@@ -35,5 +35,5 @@ socket.init(server)
 
 let port = process.env.PORT || 3000
 server.listen(port, function () {
-  console.log('listening on port ' + port)
+  console.log('shiiiiiit, listening on port ' + port)
 })

@@ -1,0 +1,160 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Client API test</title>
+
+  <script src="/RTCPeer"></script>
+  <script src="/Peer"></script>
+
+  <style>
+    button {
+      cursor: pointer;
+    }
+    .channels > span {
+      border-radius: 5px;
+      margin: 2px;
+      padding: 1px 7px;
+      color: white;
+      font-size: 10pt;
+      position: relative;
+      cursor: pointer;
+    } 
+    .channels > span:focus::after {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      content: '';
+      background-color: black;
+      opacity: .3;
+    }
+    .channels > span.select::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: calc(50% - 3px);
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: black;
+    }
+    .channels > span:nth-child(4n + 1) {
+      background-color: tomato;
+    }
+    .channels > span:nth-child(4n + 2) {
+      background-color: cornflowerblue;
+    }
+    .channels > span:nth-child(4n + 3) {
+      background-color: rgb(79, 207, 28);
+    }
+    .channels > span:nth-child(4n + 4) {
+      background-color: rgb(80, 83, 255);
+    }
+  </style>
+</head>
+<body>
+  <script>
+    let peer = null 
+    let currentRoom = 'chat'
+    function createPeer () {
+      if (peer === null) {
+        peer = new Peer('wss://localhost:8080', { name: 'Sir Henry' })
+        peer.on('connect', host => {
+          if (host) {
+            peer.addDataChannel('chat')
+            console.log('Im am the host of ' + peer.room.id)
+          } else console.log('joined ' + peer.room.id)
+        })
+        peer.on('datachannel', channel => {
+          addChannelElm(channel.label)
+          channel.onmessage = (data, conn) => {
+            let txt = 'incoming message from ' + conn.name + ':\n' + data + '\n'
+            console.log(txt)
+            let ta = document.querySelector('.ans')
+            ta.value = ta.value + txt
+          }
+        })
+        peer.on('message', msg => console.log(msg))
+        peer.on('error', err => console.error(err))
+        console.log('peer created', peer)
+      }
+    }
+    function checkPeer () {
+      if (peer) return true 
+      else {
+        alert('no peer created')
+        return false
+      }
+    }
+    function createRoom () {
+      if (checkPeer()) {
+        peer.create(document.querySelector('#room_name').value)
+      }
+    }
+    function joinRoom () {
+      if (checkPeer()) {
+        peer.join(document.querySelector('#room_name').value)
+      }
+    }
+    function send () {
+      if (checkPeer()) {
+        let text = document.querySelector('textarea').value 
+        peer.send(currentRoom, text)
+      }
+    }
+    function newChannel () {
+      if (checkPeer()) {
+        let label = document.querySelector('.channels > input').value 
+        if (label === '') alert('You must type a name for channel!')
+        else {
+          peer.addDataChannel(label)
+          addChannelElm(label)
+        }
+      }
+    }
+    function addChannelElm (label) {
+      let exists = document.querySelector(`span[data-value="${label}"]`)
+      if (!exists) {
+        let span = document.createElement('span')
+        let current = document.querySelector('span.select')
+        if (current) current.classList.remove('select')
+        span.classList.add('select')
+        span.innerText = label
+        span.setAttribute('data-value', label)
+        span.onclick = e => {
+          currentRoom = span.innerText
+          document.querySelector('span.select').classList.remove('select')
+          span.classList.add('select')
+        }
+        document.querySelector('.channels').appendChild(span)
+      }
+    }
+  </script>
+  <section>
+    <h1>Connection & Room Testing</h1>
+    <button onclick='createPeer()'>Create Peer</button>
+    <div>
+      <h3>Room</h3>
+      <input type="text" id='room_name' placeholder="Room Name">
+      <button onclick='createRoom()'>Create Room</button>
+      <button onclick='joinRoom()'>Join Room</button>
+    </div>
+    <br>
+    <hr>
+    <h3>Send and stream</h3>
+    <div class='channels'>
+      <input type="text" placeholder="channel name">
+      <button onclick='newChannel()'>+</button>
+    </div>
+    <div>
+      <textarea cols="60" rows="10"></textarea>
+      <textarea class='ans' cols="40" rows="10"></textarea>
+    </div>
+    <div>
+      <button onclick='send()'>Send Data</button>
+      <button>Stream</button>
+    </div>
+  </section>
+</body>
+</html>

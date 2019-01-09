@@ -67,14 +67,17 @@ class Peer {
         if (this.hooks.connect) this.hooks.connect(data.host)
         break;
       case 'offer':
+        console.log('offer received, mine:', data.to === this.id)
         if (data.to === this.id)
           this.receiveOffer(data)
         break;
       case 'answer':
+        console.log('answer received, mine:', data.to === this.id)
         if (data.to === this.id)
           this.receiveAnswer(data)
         break;
       case 'candidate':
+        console.log('candidate received, mine:', data.to === this.id)
         if (data.to === this.id)
           this.receiveCandidate(data)
         break;

@@ -17,6 +17,7 @@ class RTCPeer {
       hooks.newdatachannel(event.channel.label, this.id)
     }
     this.rtc.onicecandidate = event => {
+      console.log('sending candidate to', this.id)
       hooks.socketSend({ type: 'candidate', to: this.id, candidate: event.candidate })
     } 
     this.rtc.ontrack = null 

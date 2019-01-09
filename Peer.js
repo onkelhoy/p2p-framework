@@ -148,11 +148,13 @@ class Peer {
     
     // only created if not exist
     if (!peer) {
+      console.log('creating new peer since he does not exists yet')
       peer = new RTCPeer(data.from, data.name, this.servers, this.hooks, data.level)
       this.peers.push(peer)
     }
     
     try {
+      console.log('creating and sending answer')
       let answer = await peer.receiveOffer(data.offer)
       this.socketSend({ type: 'answer', to: data.from, answer })
     }
@@ -164,6 +166,7 @@ class Peer {
     for (let peer of this.peers) {
       if (peer.id === data.from) {
         try {
+          console.log('adding answer to peer', peer)
           peer.receiveAnswer(data.answer)
         }
         catch (e) {
@@ -176,6 +179,7 @@ class Peer {
     for (let peer of this.peers) {
       if (peer.id === data.from) {
         try {
+          console.log('adding candidate to', peer)
           peer.receiveCandidate(data.candidate)
         } catch (e) {
           this.hooks.error(e)

@@ -67,6 +67,7 @@
           } else console.log('joined ' + peer.room.id)
         })
         peer.on('datachannel', channel => {
+          console.log('new channel', channel.label)
           addChannelElm(channel.label)
           channel.onmessage = (data, conn) => {
             let txt = 'incoming message from ' + conn.name + ':\n' + data + '\n'

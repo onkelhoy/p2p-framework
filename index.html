@@ -59,7 +59,7 @@
     let currentRoom = 'chat'
     function createPeer () {
       if (peer === null) {
-        peer = new Peer('wss://localhost:8080', { name: 'Sir Henry' })
+        peer = new Peer('wss://wsstest2.herokuapp.com', { name: 'Sir Henry' })
         peer.on('connect', host => {
           if (host) {
             peer.addDataChannel('chat')
